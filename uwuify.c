@@ -76,7 +76,7 @@ int main(int argc, char **argv)
                     // Change "ie" to "ei"
                     if (toLower(next_chr) == 'e')
                     {
-                        putchar(toLower(next_chr));
+                        putchar(next_chr);
                         putchar(chr);
                         chr_i++;
                     }
@@ -107,7 +107,7 @@ int main(int argc, char **argv)
                     // Change "ei" to "ie"
                     if (toLower(next_chr) == 'i')
                     {
-                        putchar(toLower(next_chr));
+                        putchar(next_chr);
                         putchar(chr);
                         chr_i++;
                     }
@@ -123,9 +123,12 @@ int main(int argc, char **argv)
                     // the prev char isnt e and its at the end
                     /*if (!(chr_i == 0
                         || (chr_i > 0) ? (argv[word][chr_i - 1] == ' ') : 0)) */
-                    if (toLower(next_chr) == 'd'
-                        || (toLower(prev_chr) == 'e' && (next_chr == '\0'
-                                                         || next_chr == ' ')))
+                    if (toLower(next_chr) == 'd' ||
+                        (toLower(prev_chr) == 'e' &&
+                         (next_chr == '\0' || next_chr == ' ')
+                        ) ||
+                        toLower(next_chr) == 'u'
+                       )
                     {
                         putchar(chr);
                         break;
@@ -171,10 +174,18 @@ int main(int argc, char **argv)
                           next_chr == '\0') &&
                         !isVowel(next_chr) &&
                         toLower(next_chr) != 'w' &&
-                        toLower(next_chr) != 'f')
+                        toLower(next_chr) != 'f' &&
+                        toLower(next_chr) != 'r')
                     {
                         putchar(matchCase('w', chr));
                     }
+                    break;
+
+                case 'u':
+                    // "ue" to "u"
+                    putchar(chr);
+                    if (toLower(next_chr) == 'e')
+                        chr_i++;
                     break;
 
                 default:
@@ -191,8 +202,15 @@ int main(int argc, char **argv)
 
     // Add a little something at the end
     // Hehe no watning https://stackoverflow.com/a/18435398
-    enum { num_endings = 4 };
-    char endings[num_endings][5] = {"owo", "uwu", "nya!", "-w-"};
+    enum { num_endings = 8 };
+    char endings[num_endings][20] = {"owo",
+                                     "uwu",
+                                     "nya!",
+                                     "-w-",
+                                     "•w•",
+                                     "≧◡≦",
+                                     "(˙▿˙)",
+                                     ":3"};
 
     // Yes there are fairer ways of getting random numbers no i dont
     // care
