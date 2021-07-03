@@ -9,6 +9,7 @@
 
 char matchCase(char chr, char match);
 
+int isEnd(char chr);
 int isVowel(char chr);
 int isAlpha(char chr);
 
@@ -23,8 +24,10 @@ int main(int argc, char **argv)
     int word;
     int chr_i = 0;
     char chr;
-    char next_chr;
     char prev_chr;
+    char next_chr;
+    char next2_chr;
+    char next3_chr;
 
     // Seed rand from urandom
     FILE *random_device = fopen("/dev/urandom", "r");
@@ -64,7 +67,10 @@ int main(int argc, char **argv)
         chr_i = 0;
         while ((chr = argv[word][chr_i]) != '\0')
         {
+            // Assign the look forward chars
             next_chr = argv[word][chr_i + 1];
+            next2_chr = argv[word][chr_i + 2];
+            next3_chr = argv[word][chr_i + 3];
 
             // Only set prev_char if there is one
             prev_chr = (chr_i > 0) ? argv[word][chr_i - 1] : '\0';
@@ -72,6 +78,11 @@ int main(int argc, char **argv)
 
             switch (toLower(chr))
             {
+                case '.':
+                    // '.' -> ",,"
+                    printf(",,");
+                    break;
+
                 case 'i':
                     // Change "ie" to "ei"
                     if (toLower(next_chr) == 'e')
@@ -83,13 +94,13 @@ int main(int argc, char **argv)
                     // Change "i?e" to "ie?"
                     // Only if the char between them is a letter
                     else if (isAlpha(toLower(next_chr)) &&
-                             toLower(argv[word][chr_i + 2] == 'e'))
+                             toLower(next2_chr == 'e'))
                     {
                         // put the i
                         putchar(chr);
 
                         // put the e
-                        putchar(argv[word][chr_i + 2]);
+                        putchar(next2_chr);
 
                         // put the extra char
                         putchar(next_chr);
@@ -125,7 +136,7 @@ int main(int argc, char **argv)
                         || (chr_i > 0) ? (argv[word][chr_i - 1] == ' ') : 0)) */
                     if (toLower(next_chr) == 'd' ||
                         (toLower(prev_chr) == 'e' &&
-                         (next_chr == '\0' || next_chr == ' ')
+                         isEnd(next_chr)
                         ) ||
                         toLower(next_chr) == 'u'
                        )
@@ -140,13 +151,38 @@ int main(int argc, char **argv)
                         putchar(chr);
                     break;
 
+                case 'o':
+                    // 'o' to "ow" if in the middle of a word and next
+                    // isnt w or vowel or f
+                    putchar(chr);
+                    if (chr_i != 0 &&
+                        !isEnd(next_chr) &&
+                        !isVowel(next_chr) &&
+                        toLower(next_chr) != 'w' &&
+                        toLower(next_chr) != 'f' &&
+                        toLower(next_chr) != 'r')
+                    {
+                        putchar(matchCase('w', chr));
+                    }
+                    break;
+
+                case 's':
+                    // 's' --> 'z' if at the end of sentence or if
+                    // next char is also an s before ending
+                    if (isEnd(next_chr) || (toLower(next_chr) == 's' && isEnd(next2_chr)))
+                        putchar(matchCase('z', chr));
+                    else
+                        putchar(chr);
+
+                    break;
+
                 case 't':
                     // Replace "th" with 'd' unless at the end,
                     // then with "ff"
+                    // Change "the" to "da"
                     if (toLower(next_chr) == 'h')
                     {
-                        if (argv[word][chr_i + 2] == '\0'
-                            || argv[word][chr_i + 2] == ' ')
+                        if (isEnd(next2_chr))
                         {
                             putchar(matchCase('f', chr));
 
@@ -155,29 +191,22 @@ int main(int argc, char **argv)
                         else
                         {
                             putchar(matchCase('d', chr));
-                        }
 
+                            // Put an 'a' if current word is the. "the" -> "da"
+                            if (chr_i == 0 &&
+                                toLower(next2_chr) == 'e' &&
+                                isEnd(next3_chr))
+                            {
+                                putchar('a');
+                                chr_i++;
+                            }
+
+                        }
                         chr_i++;
                     }
                     else
                     {
                         putchar(chr);
-                    }
-                    break;
-
-                case 'o':
-                    // 'o' to "ow" if in the middle of a word and next
-                    // isnt w or vowel or f
-                    putchar(chr);
-                    if (chr_i != 0 &&
-                        !(next_chr == ' ' ||
-                          next_chr == '\0') &&
-                        !isVowel(next_chr) &&
-                        toLower(next_chr) != 'w' &&
-                        toLower(next_chr) != 'f' &&
-                        toLower(next_chr) != 'r')
-                    {
-                        putchar(matchCase('w', chr));
                     }
                     break;
 
@@ -220,6 +249,12 @@ int main(int argc, char **argv)
     putchar('\n');
 
     return(0);
+}
+
+
+int isEnd(char chr)
+{
+    return(chr == ' ' || chr == '\0');
 }
 
 
