@@ -9,6 +9,7 @@
 
 char matchCase(char chr, char match);
 
+int isVowel(char chr);
 int isAlpha(char chr);
 
 char isUpper(char chr);
@@ -161,6 +162,21 @@ int main(int argc, char **argv)
                     }
                     break;
 
+                case 'o':
+                    // 'o' to "ow" if in the middle of a word and next
+                    // isnt w or vowel or f
+                    putchar(chr);
+                    if (chr_i != 0 &&
+                        !(next_chr == ' ' ||
+                          next_chr == '\0') &&
+                        !isVowel(next_chr) &&
+                        toLower(next_chr) != 'w' &&
+                        toLower(next_chr) != 'f')
+                    {
+                        putchar(matchCase('w', chr));
+                    }
+                    break;
+
                 default:
                     putchar(chr);
             }
@@ -201,6 +217,16 @@ char matchCase(char chr, char match)
     return(chr);
 }
 
+
+int isVowel(char chr)
+{
+    char lower = toLower(chr);
+    return(lower == 'a'
+           || lower == 'e'
+           || lower == 'i'
+           || lower == 'o'
+           || lower == 'u');
+}
 
 
 int isAlpha(char chr)
