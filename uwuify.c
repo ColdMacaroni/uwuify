@@ -83,6 +83,26 @@ int main(int argc, char **argv)
                     printf(",,");
                     break;
 
+                case 'c':
+                    // Change "ck" -> "k"
+                    if (toLower(next_chr) != 'k')
+                        putchar(chr);
+                    break;
+
+                case 'e':
+                    // Change "ei" to "ie"
+                    if (toLower(next_chr) == 'i')
+                    {
+                        putchar(next_chr);
+                        putchar(chr);
+                        chr_i++;
+                    }
+                    else
+                    {
+                        putchar(chr);
+                    }
+                    break;
+
                 case 'i':
                     // Change "ie" to "ei"
                     if (toLower(next_chr) == 'e')
@@ -107,20 +127,6 @@ int main(int argc, char **argv)
 
                         // Skip both
                         chr_i += 2;
-                    }
-                    else
-                    {
-                        putchar(chr);
-                    }
-                    break;
-
-                case 'e':
-                    // Change "ei" to "ie"
-                    if (toLower(next_chr) == 'i')
-                    {
-                        putchar(next_chr);
-                        putchar(chr);
-                        chr_i++;
                     }
                     else
                     {
