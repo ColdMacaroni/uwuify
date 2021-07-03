@@ -131,7 +131,7 @@ int main(int argc, char **argv)
                         break;
                     }
                 case 'l':
-                    if (next_chr != 'i')
+                    if (chr_i != 0 && next_chr != 'i')
                         putchar(matchCase('w', chr));
                     else
                         putchar(chr);
