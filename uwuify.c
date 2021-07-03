@@ -29,7 +29,7 @@ int main(int argc, char **argv)
     char next2_chr;
     char next3_chr;
 
-    // Seed rand from urandom
+    // Seed rand from urandom for more variety.
     FILE *random_device = fopen("/dev/urandom", "r");
 
     // Use time if it cant be opened
