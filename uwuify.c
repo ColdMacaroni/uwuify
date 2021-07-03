@@ -29,6 +29,10 @@ int main(int argc, char **argv)
     char next2_chr;
     char next3_chr;
 
+    // This one is used in case any of the cases
+    // needs to store one for a bit.
+    char temp_chr;
+
     // Seed rand from urandom for more variety.
     FILE *random_device = fopen("/dev/urandom", "r");
 
@@ -161,12 +165,15 @@ int main(int argc, char **argv)
                     // 'o' to "ow" if in the middle of a word and next
                     // isnt w or vowel or f
                     putchar(chr);
+
+                    temp_chr = toLower(next_chr);
                     if (chr_i != 0 &&
                         !isEnd(next_chr) &&
                         !isVowel(next_chr) &&
-                        toLower(next_chr) != 'w' &&
-                        toLower(next_chr) != 'f' &&
-                        toLower(next_chr) != 'r')
+                        temp_chr != 'w' &&
+                        temp_chr != 'f' &&
+                        temp_chr != 'r' &&
+                        temp_chr != 'y')
                     {
                         putchar(matchCase('w', chr));
                     }
