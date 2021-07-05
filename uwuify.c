@@ -257,7 +257,13 @@ int main(int argc, char **argv)
     // Yes there are fairer ways of getting random numbers no i dont
     // care
     putchar(' ');
+
+#ifdef unix
     printf("%s", endings[random() % num_endings]);
+#else
+
+    printf("%s", endings[rand() % num_endings]);
+#endif
 
     putchar('\n');
 
