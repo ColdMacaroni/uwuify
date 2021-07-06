@@ -146,14 +146,18 @@ int main(int argc, char **argv)
                         || (chr_i > 0) ? (argv[word][chr_i - 1] == ' ') : 0)) */
                     if (toLower(next_chr) == 'd' ||
                         (toLower(prev_chr) == 'e' &&
-                         isEnd(next_chr)
-                        ) ||
+                         isEnd(next_chr)) ||
                         toLower(next_chr) == 'u'
                        )
                     {
                         putchar(chr);
-                        break;
                     }
+                    else
+                    {
+                        putchar(matchCase('w', chr));
+                    }
+                    break;
+
                 case 'l':
                     if (chr_i != 0 && next_chr != 'i')
                         putchar(matchCase('w', chr));
