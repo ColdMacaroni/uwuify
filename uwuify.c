@@ -22,6 +22,7 @@ char toLower(char chr);
 int main(int argc, char **argv)
 {
     char string[BUFSIZ + 1];
+    int string_ls_len;
 
     int word;
     int chr_i = 0;
@@ -63,9 +64,19 @@ int main(int argc, char **argv)
     }
 
     // If there are no arguments, read from stdin
-    if (!argc)
+    if (argc == 1)
     {
         fgets(string, BUFSIZ, stdin);
+        char *string_ls[1];
+        string_ls[0] = string;
+        string_ls_len = 1;
+        word = 0;
+    }
+    else
+    {
+        char **string_ls = argv;
+        string_ls_len = argc;
+        word = 1  // Skip filename
     }
 
 
