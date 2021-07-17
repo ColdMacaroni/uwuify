@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
+#include <string.h>
 
 /*
  * Bee 2021
@@ -22,9 +23,7 @@ char toLower(char chr);
 int main(int argc, char **argv)
 {
     char string[BUFSIZ + 1];
-    int string_ls_len;
 
-    int word;
     int chr_i = 0;
 
     char chr;
@@ -67,35 +66,40 @@ int main(int argc, char **argv)
     if (argc == 1)
     {
         fgets(string, BUFSIZ, stdin);
-        char *string_ls[1];
-        string_ls[0] = string;
-        string_ls_len = 1;
-        word = 0;
+
     }
     else
     {
-        char **string_ls = argv;
-        string_ls_len = argc;
-        word = 1;  // Skip filename
+        // Reset string
+        memset(string, '\0', (BUFSIZ + 1) * sizeof(char));
+        for (int i = 1; i < argc; i++)
+        {
+            strcat(string, argv[i]);
+
+            // Add a space between arguments
+            if (i != argc - 1)
+                strcat(string, " ");
+        }
     }
 
-
     // Loop through all arguments, and each char of the arguments
-    for (word = 1; word < argc; word++)
+    /* for (word = 1; word < argc; word++) */
+    /* { */
+    /*     // Loop until the end of the string. */
+    /*     chr_i = 0; */
+    /*     while ((chr = argv[word][chr_i]) != '\0') */
+    /*     { */
+    /*         // Assign the look forward chars */
+    /*         next_chr = argv[word][chr_i + 1]; */
+    /*         next2_chr = argv[word][chr_i + 2]; */
+    /*         next3_chr = argv[word][chr_i + 3]; */
+
+    /*         // Only set prev_char if there is one */
+    /*         prev_chr = (chr_i > 0) ? argv[word][chr_i - 1] : '\0'; */
+    /*         /1* putchar(chr); *1/ */
+
+    for (int i = 0; i < 1; i++)
     {
-        // Loop until the end of the string.
-        chr_i = 0;
-        while ((chr = argv[word][chr_i]) != '\0')
-        {
-            // Assign the look forward chars
-            next_chr = argv[word][chr_i + 1];
-            next2_chr = argv[word][chr_i + 2];
-            next3_chr = argv[word][chr_i + 3];
-
-            // Only set prev_char if there is one
-            prev_chr = (chr_i > 0) ? argv[word][chr_i - 1] : '\0';
-            /* putchar(chr); */
-
             switch (toLower(chr))
             {
                 case '.':
@@ -255,11 +259,6 @@ int main(int argc, char **argv)
             }
 
             chr_i++;
-        }
-
-        // This for loop avoid putting a trailing space char
-        if (word < argc -1)
-            putchar(' ');
     }
 
     // Add a little something at the end
