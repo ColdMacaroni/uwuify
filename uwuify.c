@@ -37,7 +37,7 @@ int main(int argc, char **argv)
     // needs to store one for a bit.
     char temp_chr;
 
-    unsigned char newline = 0;
+    _Bool using_stdin = 0;
 
     // Seed rand from urandom for more variety.
     FILE *random_device = fopen("/dev/urandom", "r");
@@ -69,6 +69,7 @@ int main(int argc, char **argv)
     if (argc == 1)
     {
         fgets(string, BUFSIZ, stdin);
+        using_stdin = 1;
     }
     else
     {
@@ -82,24 +83,7 @@ int main(int argc, char **argv)
             if (i != argc - 1)
                 strcat(string, " ");
         }
-        newline = 1;
     }
-
-    // Loop through all arguments, and each char of the arguments
-    /* for (word = 1; word < argc; word++) */
-    /* { */
-    /*     // Loop until the end of the string. */
-    /*     chr_i = 0; */
-    /*     while ((chr = argv[word][chr_i]) != '\0') */
-    /*     { */
-    /*         // Assign the look forward chars */
-    /*         next_chr = argv[word][chr_i + 1]; */
-    /*         next2_chr = argv[word][chr_i + 2]; */
-    /*         next3_chr = argv[word][chr_i + 3]; */
-
-    /*         // Only set prev_char if there is one */
-    /*         prev_chr = (chr_i > 0) ? argv[word][chr_i - 1] : '\0'; */
-    /*         /1* putchar(chr); *1/ */
 
     string_length = strlen(string) / sizeof(char);
 
@@ -112,7 +96,7 @@ int main(int argc, char **argv)
         // Only set prev_char if there is one
         prev_chr = (i > 0) ? string[i - 1] : '\0';
 
-
+        // TODO: Clean this mess
         switch (toLower(chr))
         {
             case '.':
@@ -300,7 +284,7 @@ int main(int argc, char **argv)
     printf("%s", endings[rand() % num_endings]);
 #endif
 
-    if (newline) putchar('\n');
+    if (!using_stdin) putchar('\n');
 
     return(0);
 }
