@@ -100,165 +100,173 @@ int main(int argc, char **argv)
 
     for (int i = 0; i < 1; i++)
     {
-            switch (toLower(chr))
-            {
-                case '.':
-                    // '.' -> ",,"
-                    printf(",,");
-                    break;
+        chr = string[i];
+        next_chr = string[i + 1];
+        next2_chr = string[i + 2];
+        next3_chr = string[i + 3];
 
-                case 'c':
-                    // Change "ck" -> "k"
-                    if (toLower(next_chr) != 'k')
-                        putchar(chr);
-                    break;
+        // Only set prev_char if there is one
+        prev_chr = (i > 0) ? string[i - 1] : '\0';
 
-                case 'e':
-                    // Change "ei" to "ie"
-                    if (toLower(next_chr) == 'i')
-                    {
-                        putchar(next_chr);
-                        putchar(chr);
-                        chr_i++;
-                    }
-                    else
-                    {
-                        putchar(chr);
-                    }
-                    break;
+        switch (toLower(chr))
+        {
+            case '.':
+                // '.' -> ",,"
+                printf(",,");
+                break;
 
-                case 'i':
-                    // Change "ie" to "ei"
-                    if (toLower(next_chr) == 'e')
-                    {
-                        putchar(next_chr);
-                        putchar(chr);
-                        chr_i++;
-                    }
-                    // Change "i?e" to "ie?"
-                    // Only if the char between them is a letter
-                    else if (isAlpha(toLower(next_chr)) &&
-                             toLower(next2_chr == 'e'))
-                    {
-                        // put the i
-                        putchar(chr);
+            case 'c':
+                // Change "ck" -> "k"
+                if (toLower(next_chr) != 'k')
+                    putchar(chr);
+                break;
 
-                        // put the e
-                        putchar(next2_chr);
+            case 'e':
+                // Change "ei" to "ie"
+                if (toLower(next_chr) == 'i')
+                {
+                    putchar(next_chr);
+                    putchar(chr);
+                    chr_i++;
+                }
+                else
+                {
+                    putchar(chr);
+                }
+                break;
 
-                        // put the extra char
-                        putchar(next_chr);
-
-                        // Skip both
-                        chr_i += 2;
-                    }
-                    else
-                    {
-                        putchar(chr);
-                    }
-                    break;
-
-                case 'r':
-                    // Only replace r with w if at the start of a word
-                    // UPDATE: Replace only if next isnt a d or if it
-                    // the prev char isnt e and its at the end
-                    /*if (!(chr_i == 0
-                        || (chr_i > 0) ? (argv[word][chr_i - 1] == ' ') : 0)) */
-                    if (toLower(next_chr) == 'd' ||
-                        (toLower(prev_chr) == 'e' &&
-                         isEnd(next_chr)) ||
-                        toLower(next_chr) == 'u'
-                       )
-                    {
-                        putchar(chr);
-                    }
-                    else
-                    {
-                        putchar(matchCase('w', chr));
-                    }
-                    break;
-
-                case 'l':
-                    if (chr_i != 0 && next_chr != 'i')
-                        putchar(matchCase('w', chr));
-                    else
-                        putchar(chr);
-                    break;
-
-                case 'o':
-                    // 'o' to "ow" if in the middle of a word and next
-                    // isnt w or vowel or f
+            case 'i':
+                // Change "ie" to "ei"
+                if (toLower(next_chr) == 'e')
+                {
+                    putchar(next_chr);
+                    putchar(chr);
+                    chr_i++;
+                }
+                // Change "i?e" to "ie?"
+                // Only if the char between them is a letter
+                else if (isAlpha(toLower(next_chr)) &&
+                         toLower(next2_chr == 'e'))
+                {
+                    // put the i
                     putchar(chr);
 
-                    temp_chr = toLower(next_chr);
-                    if (chr_i != 0 &&
-                        !isEnd(next_chr) &&
-                        !isVowel(next_chr) &&
-                        temp_chr != 'w' &&
-                        temp_chr != 'f' &&
-                        temp_chr != 'r' &&
-                        temp_chr != 'y')
+                    // put the e
+                    putchar(next2_chr);
+
+                    // put the extra char
+                    putchar(next_chr);
+
+                    // Skip both
+                    chr_i += 2;
+                }
+                else
+                {
+                    putchar(chr);
+                }
+                break;
+
+            case 'r':
+                // Only replace r with w if at the start of a word
+                // UPDATE: Replace only if next isnt a d or if it
+                // the prev char isnt e and its at the end
+                /*if (!(chr_i == 0
+                    || (chr_i > 0) ? (argv[word][chr_i - 1] == ' ') : 0)) */
+                if (toLower(next_chr) == 'd' ||
+                    (toLower(prev_chr) == 'e' &&
+                     isEnd(next_chr)) ||
+                    toLower(next_chr) == 'u'
+                   )
+                {
+                    putchar(chr);
+                }
+                else
+                {
+                    putchar(matchCase('w', chr));
+                }
+                break;
+
+            case 'l':
+                if (chr_i != 0 && next_chr != 'i')
+                    putchar(matchCase('w', chr));
+                else
+                    putchar(chr);
+                break;
+
+            case 'o':
+                // 'o' to "ow" if in the middle of a word and next
+                // isnt w or vowel or f
+                putchar(chr);
+
+                temp_chr = toLower(next_chr);
+                if (chr_i != 0 &&
+                    !isEnd(next_chr) &&
+                    !isVowel(next_chr) &&
+                    temp_chr != 'w' &&
+                    temp_chr != 'f' &&
+                    temp_chr != 'r' &&
+                    temp_chr != 'y')
+                {
+                    putchar(matchCase('w', chr));
+                }
+                break;
+
+            case 's':
+                // 's' --> 'z' if at the end of sentence or if
+                // next char is also an s before ending
+                if (isEnd(next_chr) || (toLower(next_chr) == 's' && isEnd(next2_chr)))
+                    putchar(matchCase('z', chr));
+                else
+                    putchar(chr);
+
+                break;
+
+            case 't':
+                // Replace "th" with 'd' unless at the end,
+                // then with "ff"
+                // Change "the" to "da"
+                if (toLower(next_chr) == 'h')
+                {
+                    if (isEnd(next2_chr))
                     {
-                        putchar(matchCase('w', chr));
+                        putchar(matchCase('f', chr));
+
+                        putchar(matchCase('f', next_chr));
                     }
-                    break;
-
-                case 's':
-                    // 's' --> 'z' if at the end of sentence or if
-                    // next char is also an s before ending
-                    if (isEnd(next_chr) || (toLower(next_chr) == 's' && isEnd(next2_chr)))
-                        putchar(matchCase('z', chr));
                     else
-                        putchar(chr);
-
-                    break;
-
-                case 't':
-                    // Replace "th" with 'd' unless at the end,
-                    // then with "ff"
-                    // Change "the" to "da"
-                    if (toLower(next_chr) == 'h')
                     {
-                        if (isEnd(next2_chr))
+                        putchar(matchCase('d', chr));
+
+                        // Put an 'a' if current word is the. "the" -> "da"
+                        if (chr_i == 0 &&
+                            toLower(next2_chr) == 'e' &&
+                            isEnd(next3_chr))
                         {
-                            putchar(matchCase('f', chr));
-
-                            putchar(matchCase('f', next_chr));
+                            putchar('a');
+                            chr_i++;
                         }
-                        else
-                        {
-                            putchar(matchCase('d', chr));
 
-                            // Put an 'a' if current word is the. "the" -> "da"
-                            if (chr_i == 0 &&
-                                toLower(next2_chr) == 'e' &&
-                                isEnd(next3_chr))
-                            {
-                                putchar('a');
-                                chr_i++;
-                            }
-
-                        }
-                        chr_i++;
                     }
-                    else
-                    {
-                        putchar(chr);
-                    }
-                    break;
-
-                case 'u':
-                    // "ue" to "u"
+                    chr_i++;
+                }
+                else
+                {
                     putchar(chr);
-                    if (toLower(next_chr) == 'e')
-                        chr_i++;
-                    break;
+                }
+                break;
 
-                default:
-                    putchar(chr);
-            }
+            case 'u':
+                // "ue" to "u"
+                putchar(chr);
+                if (toLower(next_chr) == 'e')
+                    chr_i++;
+                break;
 
-            chr_i++;
+            default:
+                putchar(chr);
+        }
+
+        chr_i++;
     }
 
     // Add a little something at the end
