@@ -24,6 +24,7 @@ int main(int argc, char **argv)
 {
     char string[BUFSIZ + 1];
 
+    int string_length;
     int chr_i = 0;
 
     char chr;
@@ -98,15 +99,19 @@ int main(int argc, char **argv)
     /*         prev_chr = (chr_i > 0) ? argv[word][chr_i - 1] : '\0'; */
     /*         /1* putchar(chr); *1/ */
 
+    string_length = strlen(string) / sizeof(char);
+    printf("%d\n", string_length);
+
     for (int i = 0; i < 1; i++)
     {
         chr = string[i];
         next_chr = string[i + 1];
         next2_chr = string[i + 2];
         next3_chr = string[i + 3];
-
+puts("a");
         // Only set prev_char if there is one
         prev_chr = (i > 0) ? string[i - 1] : '\0';
+
 
         switch (toLower(chr))
         {
@@ -267,6 +272,9 @@ int main(int argc, char **argv)
         }
 
         chr_i++;
+
+        if (chr == ' ')
+            chr_i = 0;
     }
 
     // Add a little something at the end
