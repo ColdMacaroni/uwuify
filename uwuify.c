@@ -76,7 +76,7 @@ int main(int argc, char **argv)
     {
         char **string_ls = argv;
         string_ls_len = argc;
-        word = 1  // Skip filename
+        word = 1;  // Skip filename
     }
 
 
