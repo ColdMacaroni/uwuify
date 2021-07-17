@@ -85,9 +85,9 @@ int main(int argc, char **argv)
         }
     }
 
-    string_length = strlen(string) / sizeof(char);
     do
     {
+        string_length = strlen(string) / sizeof(char);
         for (int i = 0; i < string_length; i++)
         {
             chr = string[i];
@@ -278,16 +278,17 @@ int main(int argc, char **argv)
 
     // Yes there are fairer ways of getting random numbers no i dont
     // care
-    putchar(' ');
+    char last_char = string[strlen(string) / sizeof(char) - 1];
+    if (last_char != '\n')
+        putchar(' ');
 
 #ifdef unix
     printf("%s", endings[random() % num_endings]);
 #else
-
     printf("%s", endings[rand() % num_endings]);
 #endif
 
-    if (!using_stdin) putchar('\n');
+    if (!using_stdin || last_char == '\n') putchar('\n');
 
     return(0);
 }
