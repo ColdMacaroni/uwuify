@@ -21,8 +21,11 @@ char toLower(char chr);
 
 int main(int argc, char **argv)
 {
+    char string[BUFSIZ + 1];
+
     int word;
     int chr_i = 0;
+
     char chr;
     char prev_chr;
     char next_chr;
@@ -59,10 +62,12 @@ int main(int argc, char **argv)
         fclose(random_device);
     }
 
-    // Avoid all the loopy things by exiting early
-    // if there arent any args
-    if (argc == 1)
-        return(0);
+    // If there are no arguments, read from stdin
+    if (!argc)
+    {
+        fgets(string, BUFSIZ, stdin);
+    }
+
 
     // Loop through all arguments, and each char of the arguments
     for (word = 1; word < argc; word++)
