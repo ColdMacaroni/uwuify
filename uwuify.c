@@ -37,6 +37,8 @@ int main(int argc, char **argv)
     // needs to store one for a bit.
     char temp_chr;
 
+    unsigned char newline = 0;
+
     // Seed rand from urandom for more variety.
     FILE *random_device = fopen("/dev/urandom", "r");
 
@@ -67,7 +69,6 @@ int main(int argc, char **argv)
     if (argc == 1)
     {
         fgets(string, BUFSIZ, stdin);
-
     }
     else
     {
@@ -81,6 +82,7 @@ int main(int argc, char **argv)
             if (i != argc - 1)
                 strcat(string, " ");
         }
+        newline = 1;
     }
 
     // Loop through all arguments, and each char of the arguments
@@ -100,15 +102,13 @@ int main(int argc, char **argv)
     /*         /1* putchar(chr); *1/ */
 
     string_length = strlen(string) / sizeof(char);
-    printf("%d\n", string_length);
 
-    for (int i = 0; i < 1; i++)
+    for (int i = 0; i < string_length; i++)
     {
         chr = string[i];
         next_chr = string[i + 1];
         next2_chr = string[i + 2];
         next3_chr = string[i + 3];
-puts("a");
         // Only set prev_char if there is one
         prev_chr = (i > 0) ? string[i - 1] : '\0';
 
@@ -300,7 +300,7 @@ puts("a");
     printf("%s", endings[rand() % num_endings]);
 #endif
 
-    putchar('\n');
+    if (newline) putchar('\n');
 
     return(0);
 }
