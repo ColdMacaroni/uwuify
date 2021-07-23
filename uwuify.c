@@ -118,6 +118,7 @@ int main(int argc, char **argv)
                         putchar(next_chr);
                         putchar(chr);
                         chr_i++;
+                        i++;
                     }
                     else
                     {
@@ -132,6 +133,7 @@ int main(int argc, char **argv)
                         putchar(next_chr);
                         putchar(chr);
                         chr_i++;
+                        i++;
                     }
                     // Change "i?e" to "ie?"
                     // Only if the char between them is a letter
@@ -149,6 +151,7 @@ int main(int argc, char **argv)
 
                         // Skip both
                         chr_i += 2;
+                        i += 2;
                     }
                     else
                     {
@@ -234,10 +237,12 @@ int main(int argc, char **argv)
                             {
                                 putchar('a');
                                 chr_i++;
+                                i++;
                             }
 
                         }
                         chr_i++;
+                        i++;
                     }
                     else
                     {
@@ -250,6 +255,7 @@ int main(int argc, char **argv)
                     putchar(chr);
                     if (toLower(next_chr) == 'e')
                         chr_i++;
+                        i++;
                     break;
 
                 default:
