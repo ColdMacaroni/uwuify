@@ -254,8 +254,10 @@ int main(int argc, char **argv)
                     // "ue" to "u"
                     putchar(chr);
                     if (toLower(next_chr) == 'e')
+                    {
                         chr_i++;
                         i++;
+                    }
                     break;
 
                 default:
