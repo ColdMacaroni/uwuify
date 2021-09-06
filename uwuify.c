@@ -53,7 +53,7 @@ int main(int argc, char **argv)
 
         size_t result = fread(&seed, sizeof(seed), 1, random_device);
 
-        if (result < 0)
+        if (result == 0)
         {
             srand((unsigned)time(NULL));
         }
